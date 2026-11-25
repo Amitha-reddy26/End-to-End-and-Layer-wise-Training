@@ -1,70 +1,101 @@
 # Comparing End-to-End and Layer-wise Training in Deep Neural Networks
 
-This project is a portfolio implementation comparing end-to-end and staged layer-wise training using convolutional neural networks in PyTorch.
+## Project Overview
 
-## Technologies
-- Python
-- PyTorch and Torchvision
-- Pandas and Matplotlib
-- Apple Silicon MPS
-- Pytest and GitHub Actions
+This project compares end-to-end and layer-wise training approaches in deep neural networks using PyTorch. The objective is to evaluate how different training strategies affect classification accuracy, training loss, and computational efficiency.
+
+## Datasets
+
+- MNIST: 60,000 training images and 10,000 testing images available.
+- CIFAR-10: 50,000 training images and 10,000 testing images available.
+
+Both datasets are downloaded automatically using Torchvision.
 
 ## Methodology
-- MNIST and CIFAR-10 image classification
-- Convolutional neural networks
-- End-to-end backpropagation
-- Staged layer-wise parameter freezing
-- Adam optimization
-- Performance and training time comparison
 
-## Experimental Configuration
-- 5,000 training images per dataset
-- 10,000 test images per dataset
-- Four epochs per training method
-- Batch size: 128
-- Learning rate: 0.001
-- Images resized to 32x32
-- Random seed: 42
+### End-to-End Training
+All network layers are trained simultaneously through backpropagation, allowing the entire network to optimize its parameters jointly.
 
-## Results
+### Layer-wise Training
+A staged training approach is implemented using parameter freezing and progressive layer training.
 
-| Dataset | Method | Test Accuracy |
-|---|---|---:|
-| MNIST | End-to-End | 85.44% |
-| MNIST | Layer-wise | 81.98% |
-| CIFAR-10 | End-to-End | 36.97% |
-| CIFAR-10 | Layer-wise | 34.72% |
+## Technologies Used
 
-End-to-end training achieved higher classification accuracy, while staged layer-wise training required less measured training time in this run.
+- Python
+- PyTorch
+- Torchvision
+- NumPy
+- Pandas
+- Matplotlib
+- Apple GPU (MPS)
+- Pytest
+- Git and GitHub
+- GitHub Actions (CI/CD)
+
+## Experimental Results
+
+The following results were obtained from a preliminary four-epoch experiment.
+
+| Dataset | Training Method | Accuracy | Training Loss |
+|---|---|---:|---:|
+| MNIST | End-to-End | 85.44% | 0.6030 |
+| MNIST | Layer-wise | 81.98% | 0.8048 |
+| CIFAR-10 | End-to-End | 36.97% | 1.8243 |
+| CIFAR-10 | Layer-wise | 34.72% | 1.9182 |
 
 ## Performance Visualizations
 
-### Accuracy
-![Accuracy](outputs/accuracy.png)
+### Accuracy Comparison
 
-### Training Loss
-![Loss](outputs/loss.png)
+![Accuracy Comparison](outputs/accuracy.png)
 
-### Training Time
+### Training Loss Comparison
+
+![Training Loss](outputs/loss.png)
+
+### Training Time Comparison
+
 ![Training Time](outputs/training_time.png)
 
-[Detailed evaluation metrics](outputs/metrics.csv)
+[View detailed experimental metrics](outputs/metrics.csv)
 
-## Installation
+## Key Findings
 
-    pip install -r requirements.txt
+- End-to-end training achieved higher classification accuracy on both datasets.
+- Layer-wise training recorded shorter training times in this experiment.
+- MNIST achieved higher classification accuracy than CIFAR-10.
+- The results demonstrate a trade-off between predictive performance and computational efficiency.
 
-Download MNIST and CIFAR-10:
+## Installation and Execution
 
-    python -c "from torchvision import datasets; [(d('data', train=t, download=True)) for d in [datasets.MNIST, datasets.CIFAR10] for t in [True, False]]"
+Install the required dependencies:
 
-Run training:
+```bash
+pip install -r requirements.txt
+```
 
-    python src/train.py
+Run the training experiment:
 
-Run tests:
+```bash
+python src/train.py
+```
 
-    python -m pytest
+Run automated tests:
 
-## Limitations
-This is a reduced-scale educational experiment using a subset of training data and a single seed. Layer-wise training uses staged parameter freezing rather than independent greedy layer training. Results are not intended as state-of-the-art benchmarks.
+```bash
+python -m pytest tests/ -v
+```
+
+## Automated Testing
+
+GitHub Actions is configured to automatically execute model tests and validate the implementation. Both local tests and the GitHub Actions workflow passed successfully.
+
+## Limitations and Future Improvements
+
+- The experiment uses a limited number of training epochs.
+- The layer-wise approach is a simplified staged training implementation.
+- Additional experiments with larger training budgets, deeper architectures, and multiple random seeds could improve the reliability of the comparison.
+
+## Conclusion
+
+This project demonstrates the implementation and evaluation of different neural network training strategies using PyTorch. It explores the relationship between classification performance, training efficiency, and parameter optimization through comparative experimentation.
